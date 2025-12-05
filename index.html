@@ -2,11 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Prevent caching to ensure updates are seen immediately -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <!-- PWA Settings -->
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.svg">
+    
     <!-- Prevent Google Dictionary/Translate Popups -->
     <meta name="google" content="notranslate" />
     <title>GrammarGuard AI</title>
@@ -277,5 +284,18 @@
   <body spellcheck="false" translate="no">
     <div id="root"></div>
     <script type="module" src="./index.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered:', registration);
+            })
+            .catch(error => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
