@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import { HistoryEntry, UserStats, AppColor, Theme } from '../types';
 import { getHistory, getStats, exportHistoryJSON, importHistoryJSON } from '../services/storageService';
@@ -11,7 +10,7 @@ interface ProfileProps {
   historyUpdateTrigger: number;
 }
 
-export const Profile: React.FC<ProfileProps> = ({ colorScheme, onColorSchemeChange, onThemeChange, historyUpdateTrigger }) => {
+export const Profile: React.FC<ProfileProps> = ({ onColorSchemeChange, onThemeChange, historyUpdateTrigger }) => {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);

@@ -1,6 +1,3 @@
-
-
-
 import { GrammarAnalysis, HistoryEntry, UserStats, RewriteAnalysis, AppColor, Theme } from "../types";
 
 const STORAGE_KEY = 'grammarguard_history';
@@ -48,7 +45,7 @@ export const saveHistory = (text: string, analysis: GrammarAnalysis): void => {
   }
 };
 
-export const saveRewriteHistory = (text: string, analysis: RewriteAnalysis): void => {
+export const saveRewriteHistory = (_text: string, analysis: RewriteAnalysis): void => {
   try {
     const history = getHistory();
     const content = analysis.rewrittenText;

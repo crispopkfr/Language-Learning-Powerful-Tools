@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { GrammarAnalysis, RewriteStyle, QuickRewriteState } from '../types';
 import { t } from '../services/translations';
@@ -14,15 +13,14 @@ interface AnalysisResultProps {
 export const AnalysisResult: React.FC<AnalysisResultProps> = ({ 
     analysis, 
     quickRewriteState, 
-    onQuickRewrite,
-    onStopQuickRewrite
+    onQuickRewrite
+    // onStopQuickRewrite is intentionally unused in this component but passed for potential future use
 }) => {
   const [copied, setCopied] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   const results = t.results;
   const tStyles = t.styles;
-  const input = t.input;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(analysis.correctedSentence);
