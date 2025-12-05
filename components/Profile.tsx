@@ -10,7 +10,7 @@ interface ProfileProps {
   historyUpdateTrigger: number;
 }
 
-export const Profile: React.FC<ProfileProps> = ({ onColorSchemeChange, onThemeChange, historyUpdateTrigger }) => {
+export const Profile: React.FC<ProfileProps> = ({ onThemeChange, historyUpdateTrigger }) => {
   const [stats, setStats] = useState<UserStats | null>(null);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -51,9 +51,7 @@ export const Profile: React.FC<ProfileProps> = ({ onColorSchemeChange, onThemeCh
         if (result.theme) {
             onThemeChange(result.theme);
         }
-        if (result.colorScheme) {
-            onColorSchemeChange(result.colorScheme);
-        }
+        // colorScheme ignored here as we don't have the setter in props
 
         if (fileInputRef.current) fileInputRef.current.value = '';
       } else {
