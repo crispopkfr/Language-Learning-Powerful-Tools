@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { InputArea } from './components/InputArea';
@@ -82,6 +80,62 @@ const App: React.FC = () => {
   const touchStartY = useRef<number | null>(null);
 
   // --- Effects ---
+
+  // Global Click Sound Effect
+  useEffect(() => {
+    let audioCtx: AudioContext | null = null;
+
+    const playSound = () => {
+      // Lazy init audio context
+      if (!audioCtx) {
+        audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+      
+      // Resume if suspended (browser autoplay policy)
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+
+      const oscillator = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      const now = audioCtx.currentTime;
+      
+      // Sound Profile: Short, soft "pop"
+      oscillator.type = 'sine';
+      oscillator.frequency.setValueAtTime(600, now);
+      oscillator.frequency.exponentialRampToValueAtTime(300, now + 0.08);
+
+      // Volume Envelope (Attack -> Decay)
+      gainNode.gain.setValueAtTime(0, now);
+      gainNode.gain.linearRampToValueAtTime(0.05, now + 0.01);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+
+      oscillator.start(now);
+      oscillator.stop(now + 0.08);
+    };
+
+    const handleGlobalClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      // Detect clicks on buttons, links, or elements with button role
+      const clickable = target.closest('button, a, [role="button"], input[type="submit"], input[type="button"], input[type="radio"], input[type="checkbox"]');
+      
+      if (clickable) {
+        playSound();
+      }
+    };
+
+    window.addEventListener('click', handleGlobalClick);
+    return () => {
+      window.removeEventListener('click', handleGlobalClick);
+      if (audioCtx && audioCtx.state !== 'closed') {
+        audioCtx.close().catch(() => {});
+      }
+    };
+  }, []);
 
   // Theme Handling
   useEffect(() => {
