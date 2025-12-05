@@ -1,0 +1,7 @@
+{
+  "name": "Learn English Powerful Tools",
+  "description": "",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
